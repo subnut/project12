@@ -77,7 +77,7 @@ e.g. `user=User()` <br>
 Create a separate config.py or constants.py from where the settings/constants <br>
 like _hostname_ (ip/socket of database) <br>
 _database_ (name of the database) <br>
-_admin username_ _guest Username_ _tenant username_ etc. <br>
+_admin username_, _guest Username_, _tenant username_, etc. <br>
 These shall be **overrides** over the default values <br>
 i.e after importing the config.py check if all expected values are there. <br>
 if no, then assign the defaults to them (i.e. like in `vim-iawriter`)
@@ -91,7 +91,7 @@ if no, then assign the defaults to them (i.e. like in `vim-iawriter`)
 - Check rates (also from database - make a `rates` table?)
 ```sql
 grant select on `hotel database` . `rates` to 'guest'@'localhost';
-grant select(`room type`), select(`occupied`) on `hotel database` . `rooms` to 'guest'@'localhost';
+grant select(`room number`), select(`room type`), select(`occupied`) on `hotel database` . `rooms` to 'guest'@'localhost';
 ```
 
 ### Tenants

@@ -1,13 +1,16 @@
+import getpass
+
+
 def choose_option(options):
     """
-    Choose an option
-    from a supplied list/tuple of it
+    Shows options passed to it and asks the user to select one option. Returns the index of the selected option.
 
-    :param options list/tuple: options to choose from
+    :param options List/Tuple: Options to show to the user
+    :raises RuntimeError: parameter 'options' is not List or Tuple
     """
     if not isinstance(options, (list, tuple)):
         raise RuntimeError("choose_option() expects list or tuple as input")
-    for index in range(len(options)):
+    for index in enumerate(options):
         print(str(index + 1) + ": " + str(options[index]))
     while True:
         user_input = input("Choose your option: ")
@@ -38,3 +41,10 @@ def yes_or_no(confirmation_text):
             return False
         else:
             print("Invalid input. Please try again.")
+
+
+def get_password(text=None):
+    if text is not None:
+        return getpass.getpass(prompt=text)
+    else:
+        return getpass.getpass()
