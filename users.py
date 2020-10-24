@@ -2,22 +2,25 @@ import mysql.connector
 import tabulate
 from constants import GUEST_USERNAME, DATABASE_NAME, DATABASE_SERVER, ADMIN_USERNAME
 import userinput
-
-# from userinput import *
+import util
 
 
 class Guest:
     def __init__(self):
-        self.connector = mysql.connector.connect(
-            user=GUEST_USERNAME,
-            host=DATABASE_SERVER,
-            database=DATABASE_NAME,
-        )
+        if util.Check().database():
+            self.connector = mysql.connector.connect(
+                user=GUEST_USERNAME,
+                host=DATABASE_SERVER,
+                database=DATABASE_NAME,
+            )
         self.actions = ("Check empty rooms", "Check rates", "Check both")
         self.functions = (self.check_rooms, self.check_rates, self.check_both)
 
+    def cursor(self):
+        return util.Cursor(self)
+
     def check_rooms(self):
-        with self.connector.cursor() as cursor:
+        with self.cursor() as cursor:
             rows = cursor.execute(
                 "select `room number`, `room type` from `rooms` order by `room number`;"
             )
@@ -29,7 +32,7 @@ class Guest:
             print(tabulate.tabulate(data))
 
     def check_rates(self):
-        with self.connector.cursor() as cursor:
+        with self.cursor() as cursor:
             cursor.execute(
                 "select `room type`, `beds`, `AC`, `rate` from `rates` order by `room type`;"
             )
@@ -38,7 +41,7 @@ class Guest:
         print(tabulate.tabulate(data))
 
     def check_both(self):
-        with self.connector.cursor() as cursor:
+        with self.cursor() as cursor:
             rows = cursor.execute(
                 "select `room number`, `beds`, `AC`, `rate` \
                 from `rooms`, `rates` where `rooms`.`room type` = `rates`.`room type` \
@@ -78,14 +81,14 @@ class Tenant:
 
 class Admin:
     def __init__(self, password):
-        self.connector = mysql.connector.connect(
-            user=ADMIN_USERNAME,
-            password=password,
-            host=DATABASE_SERVER,
-            database=DATABASE_NAME,
-            autocommit=True,
-            # cursorclass=mysql.connector.cursors.Cursor,
-        )
+        if util.Check().database():
+            self.connection = mysql.connector.connect(
+                user=ADMIN_USERNAME,
+                password=password,
+                host=DATABASE_SERVER,
+                database=DATABASE_NAME,
+                # cursorclass=mysql.connector.cursors.Cursor,
+            )
         self.actions = (
             "Add new room",
             "Add room type",
@@ -101,6 +104,9 @@ class Admin:
             self.change_status,
         ]
 
+    def cursor(self):
+        return util.Cursor(self)
+
     def add_room(self):
         return None
 
@@ -114,15 +120,10 @@ class Admin:
         return None
 
     def change_status(self):
-        # with self.connector.cursor() as cursor:
-        #     cursor.execute("select `room number` from `rooms`;")
-        #     rooms = cursor.fetchall()
-        #     rooms = [z for (z,) in rooms]
-        cursor = self.connector.cursor()
-        cursor.execute("select `room number` from `rooms`;")
-        rooms = cursor.fetchall()
-        rooms = [z for (z,) in rooms]
-        cursor.close()
+        with self.cursor() as cursor:
+            cursor.execute("select `room number` from `rooms`;")
+            rooms = cursor.fetchall()
+            rooms = [z for (z,) in rooms]
         while True:
             room_to_change = input("Please enter the room number: ")
             if not (room_to_change.isdigit() and int(room_to_change) in rooms):
@@ -130,18 +131,10 @@ class Admin:
                     return
             else:
                 break
-        # with self.connector.cursor() as cursor:
-        #     cursor.execute(
-        #         """UPDATE `rooms`
-        #         set `occupied` = (`occupied` + 1) % 2
-        #         where `room number` = %s;""",
-        #         (room_to_change,),
-        #     )
-        cursor = self.connector.cursor()
-        cursor.execute(
-            """UPDATE `rooms`
-            set `occupied` = (`occupied` + 1) % 2
-            where `room number` = %s""",
-            (str(room_to_change),),
-        )
-        cursor.close()
+        with self.cursor() as cursor:
+            cursor.execute(
+                """UPDATE `rooms`
+                set `occupied` = (`occupied` + 1) % 2
+                where `room number` = %s;""",
+                (room_to_change,),
+            )
