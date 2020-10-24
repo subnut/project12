@@ -8,7 +8,7 @@ import util
 class Guest:
     def __init__(self):
         if util.Check().database():
-            self.connector = mysql.connector.connect(
+            self.connection = mysql.connector.connect(
                 user=GUEST_USERNAME,
                 host=DATABASE_SERVER,
                 database=DATABASE_NAME,
@@ -21,14 +21,15 @@ class Guest:
 
     def check_rooms(self):
         with self.cursor() as cursor:
-            rows = cursor.execute(
+            cursor.execute(
                 "select `room number`, `room type` from `rooms` order by `room number`;"
             )
+            rows = cursor.rowcount
             data = cursor.fetchall()
         if rows == 0:
             print("No empty rooms available right now. Please check again later.")
         else:
-            data = ("Room no.", "Room type") + data
+            data = [("Room no.", "Room type")] + data
             print(tabulate.tabulate(data))
 
     def check_rates(self):
@@ -37,22 +38,24 @@ class Guest:
                 "select `room type`, `beds`, `AC`, `rate` from `rates` order by `room type`;"
             )
             data = cursor.fetchall()
-        data = ("Room type", "Beds", "Air-conditioned", "Rate per day") + data
+        data = [("Room type", "Beds", "Air-conditioned", "Rate per day")] + data
         print(tabulate.tabulate(data))
 
     def check_both(self):
         with self.cursor() as cursor:
-            rows = cursor.execute(
+            cursor.execute(
                 "select `room number`, `beds`, `AC`, `rate` \
-                from `rooms`, `rates` where `rooms`.`room type` = `rates`.`room type` \
+                from `rooms`, `rates` where `occupied` = 0 and \
+                `rooms`.`room type` = `rates`.`room type` \
                 order by `room number`;"
             )
             data = cursor.fetchall()
+            rows = cursor.rowcount
         if rows == 0:
             print("No empty rooms available right now. Please check again later.")
         else:
-            data = ("Room no.", "Beds", "Air-conditioned", "Rate per day") + data
-            print(tabulate.tabulate(data))
+            data = [("Room no.", "Beds", "Air-conditioned", "Rate per day")] + data
+            print(tabulate.tabulate(data, tablefmt="grid"))
 
 
 class Tenant:

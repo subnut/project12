@@ -1,4 +1,4 @@
-from constants import DATABASE_SERVER, DATABASE_NAME
+from constants import DATABASE_SERVER, DATABASE_NAME, GUEST_USERNAME
 import mysql.connector
 
 
@@ -6,10 +6,14 @@ class Check:
     def server(self, *args):
         try:
             mysql.connector.connect(
+                user=GUEST_USERNAME,
                 host=DATABASE_SERVER,
             )
         except:
-            print("Cannot connect to server. Please check the connection.")
+            print(
+                f"""Cannot connect to server using username '{GUEST_USERNAME}'.
+Please check the connection."""
+            )
             return False
         else:
             return True
@@ -19,6 +23,7 @@ class Check:
             return False
         try:
             mysql.connector.connect(
+                user=GUEST_USERNAME,
                 host=DATABASE_SERVER,
                 database=DATABASE_NAME,
             )
