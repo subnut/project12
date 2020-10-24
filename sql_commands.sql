@@ -1,18 +1,26 @@
 create database `hotel database`;
-use hotel database; -- yes, that's right, WITHOUT quotes or backticks
-/* EVERYTHING that comes after the 'use' command (and before the ';') is taken as the database name */
+use `hotel database`;
 
 create table `rates` (
 `room type` int (3) primary key,
 `beds` int(2) not null,
-`rate` int(6) not null
+`AC` bool NOT NULL DEFAULT FALSE,
+`rate` int(6) not null,
+check (`AC` between 0 and 1) -- bool defaults to tinyint(1) which can also be 2,3 etc.
 );
 
+/*
+ We use constraint on rooms rather than types because you
+ should not have rooms without types, but you may want to upgrade
+ some of the existing rooms to a new type
+*/
+
 create table `rooms` (
-`room number` int (6)  primary key,
+`room number` int (6) primary key,
 `room type` int (3),
 `occupied` bool NOT NULL default False,
 foreign key (`room type`) references `rates` (`room type`) -- since the manager can add new room types anytime he/she wants, but not the other way round
+ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 create user 'guest'@'localhost';
