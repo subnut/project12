@@ -54,7 +54,6 @@ def yes_or_no(confirmation_text: str) -> bool:
         user_input = input()
         user_input = user_input.lower()
         if user_input == "":
-            print("Y")
             return True
         elif user_input in "yes" and user_input.startswith("y"):
             return True

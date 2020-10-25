@@ -39,19 +39,20 @@ Please check the connection."""
             return True
 
     def password(self, username, password):
-        if self.server():
-            try:
-                self.connection = mysql.connector.connect(
-                    user=username,
-                    password=password,
-                    host=DATABASE_SERVER,
-                    database=DATABASE_NAME,
-                )
-            except:
-                print("Password incorrect. Please try again.")
-                return False
-            else:
-                return True
+        if not self.server():
+            return False
+        try:
+            mysql.connector.connect(
+                user=username,
+                password=password,
+                host=DATABASE_SERVER,
+                database=DATABASE_NAME,
+            )
+        except:
+            print("Password incorrect. Please try again.")
+            return False
+        else:
+            return True
 
 
 class Cursor:
