@@ -1,7 +1,7 @@
-from constants import DATABASE_SERVER, DATABASE_NAME, GUEST_USERNAME
+from .constants import DATABASE_SERVER, DATABASE_NAME, GUEST_USERNAME
 import mysql.connector
-import userinput
-from tabulate import tabulate
+from . import userinput
+from .tabulate import tabulate
 
 
 class Check:

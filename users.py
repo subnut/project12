@@ -1,7 +1,7 @@
 import mysql.connector
-from constants import GUEST_USERNAME, DATABASE_NAME, DATABASE_SERVER, ADMIN_USERNAME
-import userinput
-import util
+from .constants import GUEST_USERNAME, DATABASE_NAME, DATABASE_SERVER, ADMIN_USERNAME
+from . import userinput
+from . import util
 
 checker = util.Check()
 selecter = util.Select()
