@@ -21,6 +21,7 @@ def _helper(user_object):
         except EOFError:
             if yes_or_no("Do you want to logout?"):
                 break
+            _clear_screen()
         except KeyboardInterrupt:
             print()
             exit(0)
@@ -40,10 +41,11 @@ def main():
                 except (EOFError, KeyboardInterrupt):
                     if yes_or_no("Do you want to logout?"):
                         print()
-                        continue
+                        break
                 if Check().password(ADMIN_USERNAME, password):
                     user_object = users.Admin(password)
                     _helper(user_object)
+                    break
                 else:
                     if not yes_or_no("Try again?"):
                         break
@@ -52,9 +54,11 @@ def main():
             _helper(user_object)
 
 
-if __name__ == "__main__":
+if Check().server():
     try:
         main()
     except (EOFError, KeyboardInterrupt):
         print()
         exit(0)
+else:
+    exit(1)
