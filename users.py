@@ -4,10 +4,12 @@ from constants import GUEST_USERNAME, DATABASE_NAME, DATABASE_SERVER, ADMIN_USER
 import userinput
 import util
 
+check = util.Check()
+
 
 class Guest:
     def __init__(self):
-        if util.Check().database():
+        if check.database():
             self.connection = mysql.connector.connect(
                 user=GUEST_USERNAME,
                 host=DATABASE_SERVER,
@@ -17,7 +19,7 @@ class Guest:
         self.functions = (self.check_rooms, self.check_rates, self.check_both)
 
     def cursor(self):
-        return util.Cursor(self)
+        return util.Cursor(self.connection)
 
     def check_rooms(self):
         with self.cursor() as cursor:
@@ -84,13 +86,12 @@ class Tenant:
 
 class Admin:
     def __init__(self, password):
-        if util.Check().database():
+        if check.database() and check.password(ADMIN_USERNAME, password):
             self.connection = mysql.connector.connect(
                 user=ADMIN_USERNAME,
                 password=password,
                 host=DATABASE_SERVER,
                 database=DATABASE_NAME,
-                # cursorclass=mysql.connector.cursors.Cursor,
             )
         self.actions = (
             "Add new room",
@@ -108,7 +109,7 @@ class Admin:
         ]
 
     def cursor(self):
-        return util.Cursor(self)
+        return util.Cursor(self.connection)
 
     def add_room(self):
         return None
