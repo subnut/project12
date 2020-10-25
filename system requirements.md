@@ -1,3 +1,0 @@
-- Running MySQL server with SSL configured properly on the same machine as the PC running this program
-- A database named `Employee database`
-- A user `'admin'@'localhost'` with `GRANT ALL ON ``Employee Database`` . * TO 'admin'@'localhost' WITH GRANT OPTION  `
