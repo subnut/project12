@@ -63,30 +63,6 @@ class Guest:
             print(tabulate.tabulate(data, headers="firstrow", tablefmt="orgtbl"))
 
 
-class Tenant:
-    def __init__(self, user, password):
-        self.user = user
-        self.connector = mysql.connector.connect(
-            user=user,
-            password=password,
-            host=DATABASE_SERVER,
-            database=DATABASE_NAME,
-            autocommit=True,
-            # cursorclass=mysql.connector.cursors.DictCursor,
-        )
-        self.actions = ("Show details", "Edit details", "Print payslip")
-        self.functions = [self.print_details, self.edit_details, self.payslip]
-
-    def print_details(self):
-        pass
-
-    def edit_details(self):
-        pass
-
-    def payslip(self):
-        pass
-
-
 class Admin:
     def __init__(self, password):
         if checker.database() and checker.password(ADMIN_USERNAME, password):
