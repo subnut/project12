@@ -75,3 +75,19 @@ def get_password(text: Optional[str] = None) -> str:
         return getpass.getpass(prompt=text)
     else:
         return getpass.getpass()
+
+
+def input_int(text: Optional[str] = "Please enter: ") -> Union[int, None]:
+    """
+    Takes integer input from user and returns it. Else returns None.
+
+    :param text Optional[str]: Prompt to show user
+    :rtype Union[int, None]: If no input, None. Else return int(user_input)
+    """
+    while True:
+        user_input = input(text)
+        if not user_input.isdigit():
+            if not yes_or_no("Invalid input. Try again?"):
+                return None
+        else:
+            return int(user_input)
