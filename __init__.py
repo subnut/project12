@@ -3,5 +3,6 @@ from sys import exit
 
 try:
     main()
-except Exception in (EOFError, KeyboardInterrupt):
+except (EOFError, KeyboardInterrupt):
+    print()
     exit(0)

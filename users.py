@@ -2,6 +2,7 @@ import mysql.connector
 from .constants import GUEST_USERNAME, DATABASE_NAME, DATABASE_SERVER, ADMIN_USERNAME
 from . import userinput
 from . import util
+import sys
 
 checker = util.Check()
 selecter = util.Select()
@@ -16,8 +17,16 @@ class Guest:
                 host=DATABASE_SERVER,
                 database=DATABASE_NAME,
             )
-        self.actions = ("Check empty rooms", "Check rates", "Check both")
-        self.functions = (self.check_rooms, self.check_rates, self.check_both)
+        self.actions = ("Check empty rooms", "Check rates", "Check both", "Logout")
+        self.functions = (
+            self.check_rooms,
+            self.check_rates,
+            self.check_both,
+            self._logout,
+        )
+
+    def _logout(self):
+        raise EOFError
 
     def _cursor(self):
         return util.Cursor(self.connection)
@@ -77,6 +86,7 @@ class Admin:
             "Modify room",
             "Modify room type",
             "Change room status",
+            "Logout",
         )
         self.functions = [
             self.add_room,
@@ -84,7 +94,11 @@ class Admin:
             self.modify_room,
             self.modify_room_type,
             self.change_status,
+            self._logout,
         ]
+
+    def _logout(self):
+        raise EOFError
 
     def _cursor(self):
         return util.Cursor(self.connection)
