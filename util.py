@@ -1,6 +1,7 @@
 from constants import DATABASE_SERVER, DATABASE_NAME, GUEST_USERNAME
 import mysql.connector
 import userinput
+from tabulate import tabulate
 
 
 class Check:
@@ -144,3 +145,9 @@ class Lister:
             room_types = cursor.fetchall()
             room_types = [z for (z,) in room_types]
             return room_types
+
+
+def print_table(data):
+    raw = tabulate.tabulate(data, headers="firstrow", tablefmt="orgtbl")
+    sep = "+" + ("-" * (len(raw.split("\n")[0]) - 2)) + "+"
+    print(sep, raw, sep, sep="\n")

@@ -1,5 +1,4 @@
 import mysql.connector
-import tabulate
 from constants import GUEST_USERNAME, DATABASE_NAME, DATABASE_SERVER, ADMIN_USERNAME
 import userinput
 import util
@@ -34,7 +33,7 @@ class Guest:
             print("No empty rooms available right now. Please check again later.")
         else:
             data = [("Room no.", "Room type")] + data
-            print(tabulate.tabulate(data, headers="firstrow", tablefmt="orgtbl"))
+            util.print_table(data)
 
     def check_rates(self):
         with self._cursor() as cursor:
@@ -44,7 +43,7 @@ class Guest:
             )
             data = cursor.fetchall()
         data = [("Room type", "Beds", "AC", "Rate per day")] + data
-        print(tabulate.tabulate(data, headers="firstrow", tablefmt="orgtbl"))
+        util.print_table(data)
 
     def check_both(self):
         with self._cursor() as cursor:
@@ -60,7 +59,7 @@ class Guest:
             print("No empty rooms available right now. Please check again later.")
         else:
             data = [("Room no.", "Beds", "AC", "Rate per day")] + data
-            print(tabulate.tabulate(data, headers="firstrow", tablefmt="orgtbl"))
+            util.print_table(data)
 
 
 class Admin:
