@@ -1,3 +1,6 @@
 [submodule "tabulate"]
 	path = tabulate
 	url = https://github.com/astanin/python-tabulate
+[submodule "project12/tabulate"]
+	path = project12/tabulate
+	url = https://github.com/astanin/python-tabulate
