@@ -1,8 +1,12 @@
 import mysql.connector
-from .constants import GUEST_USERNAME, DATABASE_NAME, DATABASE_SERVER, ADMIN_USERNAME
-from . import userinput
-from . import util
-import sys
+from project12.constants import (
+    GUEST_USERNAME,
+    DATABASE_NAME,
+    DATABASE_SERVER,
+    ADMIN_USERNAME,
+)
+from project12 import userinput
+from project12 import util
 
 checker = util.Check()
 selecter = util.Select()
@@ -85,6 +89,8 @@ class Admin:
             "Add room type",
             "Modify room",
             "Modify room type",
+            "Delete room",
+            "Delete room type",
             "Change room status",
             "Logout",
         )
@@ -93,6 +99,8 @@ class Admin:
             self.add_room_type,
             self.modify_room,
             self.modify_room_type,
+            self.delete_room,
+            self.delete_room_type,
             self.change_status,
             self._logout,
         ]

@@ -1,9 +1,9 @@
-from . import users
-from .constants import HOTEL_NAME, ADMIN_USERNAME
-from .userinput import choose_option, get_password, yes_or_no
-from .util import Check
-from sys import exit
 import os
+from sys import exit
+from project12 import users
+from project12.constants import HOTEL_NAME, ADMIN_USERNAME
+from project12.userinput import choose_option, get_password, yes_or_no
+from project12.util import Check
 
 
 def _clear_screen():

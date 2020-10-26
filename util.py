@@ -1,7 +1,7 @@
-from .constants import DATABASE_SERVER, DATABASE_NAME, GUEST_USERNAME
 import mysql.connector
-from . import userinput
-from .tabulate import tabulate
+from project12 import userinput
+from project12.constants import DATABASE_SERVER, DATABASE_NAME, GUEST_USERNAME
+from project12.tabulate import tabulate
 
 
 class Check:
