@@ -1,3 +1,4 @@
+import sys
 import mysql.connector
 from typing import List, Union
 from project12 import userinput
@@ -15,12 +16,18 @@ class Check:
                 user=GUEST_USERNAME,
                 host=DATABASE_SERVER,
             )
-        except:
+        except mysql.connector.errors.InterfaceError as exception:
+            print(exception)
+            print("Please check the connection.")
+            sys.exit(1)
+        except mysql.connector.errors.ProgrammingError as exception:
+            print(exception)
             print(
-                f"""Cannot connect to server using username '{GUEST_USERNAME}'.
-Please check the connection."""
+                f"GUEST_USERNAME not configured properly.\n\
+Please check whether user '{GUEST_USERNAME}' exists, \
+or set GUEST_USERNAME to the correct username."
             )
-            return False
+            sys.exit(1)
         else:
             return True
 
@@ -33,8 +40,13 @@ Please check the connection."""
                 host=DATABASE_SERVER,
                 database=DATABASE_NAME,
             )
-        except:
-            print("Database not found. Please create the database.")
+        except mysql.connector.errors.ProgrammingError as exception:
+            print(exception)
+            print(
+                "Database not configured properly. \
+Please create the database as advised, and set proper permissions to access it."
+            )
+            sys.exit(1)
             return False
         else:
             return True
@@ -49,7 +61,7 @@ Please check the connection."""
                 host=DATABASE_SERVER,
                 database=DATABASE_NAME,
             )
-        except:
+        except mysql.connector.errors.ProgrammingError:
             print("Password incorrect. Please try again.")
             return False
         else:

@@ -43,7 +43,7 @@ class Guest:
             )
             rows = cursor.rowcount
             data = cursor.fetchall()
-        if rows == 0:
+        if (rows == 0) or (len(data) == 0):
             print("No empty rooms available right now. Please check again later.")
         else:
             data = [("Room no.", "Room type")] + data
@@ -56,8 +56,12 @@ class Guest:
                 from `rates` order by `room type`;"
             )
             data = cursor.fetchall()
-        data = [("Room type", "Beds", "AC", "Rate per day")] + data
-        util.print_table(data)
+            rows = cursor.rowcount
+        if (rows == 0) or (len(data) == 0):
+            print("No rates available. Please contact the Hotel Manager.")
+        else:
+            data = [("Room type", "Beds", "AC", "Rate per day")] + data
+            util.print_table(data)
 
     def check_both(self):
         with self._cursor() as cursor:
@@ -69,7 +73,7 @@ class Guest:
             )
             data = cursor.fetchall()
             rows = cursor.rowcount
-        if rows == 0:
+        if (rows == 0) or (len(data) == 0):
             print("No empty rooms available right now. Please check again later.")
         else:
             data = [("Room no.", "Beds", "AC", "Rate per day")] + data

@@ -54,7 +54,7 @@ def main():
             _helper(user_object)
 
 
-if Check().server():
+if Check().database():
     try:
         main()
     except (EOFError, KeyboardInterrupt):
