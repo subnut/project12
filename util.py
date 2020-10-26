@@ -19,8 +19,7 @@ class Check:
         except:
             print(
                 f"""Cannot connect to server using username '{GUEST_USERNAME}'.
-Please check the connection."""
-            )
+Please check the connection.""")
             return False
         else:
             return True
@@ -91,7 +90,7 @@ class Select:
         with self._cursor() as cursor:
             cursor.execute("select `room number` from `rooms`;")
             rooms = cursor.fetchall()
-            rooms = [z for (z,) in rooms]
+            rooms = [z for (z, ) in rooms]
         while True:
             room = input(prompt)
             if not (room.isdigit() and int(room) in rooms):
@@ -105,7 +104,7 @@ class Select:
         with self._cursor() as cursor:
             cursor.execute("select `room type` from `rates`;")
             room_types = cursor.fetchall()
-            room_types = [z for (z,) in room_types]
+            room_types = [z for (z, ) in room_types]
         while True:
             room_type = input(prompt)
             if not (room_type.isdigit() and int(room_type) in room_types):
@@ -132,21 +131,21 @@ class Lister:
         with self._cursor() as cursor:
             cursor.execute("select `room number` from `rooms`;")
             room_numbers = cursor.fetchall()
-            room_numbers = [z for (z,) in room_numbers]
+            room_numbers = [z for (z, ) in room_numbers]
             return room_numbers
 
     def room_types(self):
         with self._cursor() as cursor:
             cursor.execute("select `room type` from `rates`;")
             room_types = cursor.fetchall()
-            room_types = [z for (z,) in room_types]
+            room_types = [z for (z, ) in room_types]
             return room_types
 
     def room_types_being_used(self):
         with self._cursor() as cursor:
             cursor.execute("select unique (`room type`) from `rooms`;")
             room_types = cursor.fetchall()
-            room_types = [z for (z,) in room_types]
+            room_types = [z for (z, ) in room_types]
             return room_types
 
 

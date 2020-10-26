@@ -19,7 +19,8 @@ class Guest:
                 host=DATABASE_SERVER,
                 database=DATABASE_NAME,
             )
-        self.actions = ("Check empty rooms", "Check rates", "Check both", "Logout")
+        self.actions = ("Check empty rooms", "Check rates", "Check both",
+                        "Logout")
         self.functions = (
             self.check_rooms,
             self.check_rates,
@@ -41,33 +42,33 @@ class Guest:
             rows = cursor.rowcount
             data = cursor.fetchall()
         if rows == 0:
-            print("No empty rooms available right now. Please check again later.")
+            print(
+                "No empty rooms available right now. Please check again later."
+            )
         else:
             data = [("Room no.", "Room type")] + data
             util.print_table(data)
 
     def check_rates(self):
         with self._cursor() as cursor:
-            cursor.execute(
-                "select `room type`, `beds`, `AC`, `rate`\
-                from `rates` order by `room type`;"
-            )
+            cursor.execute("select `room type`, `beds`, `AC`, `rate`\
+                from `rates` order by `room type`;")
             data = cursor.fetchall()
         data = [("Room type", "Beds", "AC", "Rate per day")] + data
         util.print_table(data)
 
     def check_both(self):
         with self._cursor() as cursor:
-            cursor.execute(
-                "select `room number`, `beds`, `AC`, `rate` \
+            cursor.execute("select `room number`, `beds`, `AC`, `rate` \
                 from `rooms`, `rates` where `occupied` = 0 and \
                 `rooms`.`room type` = `rates`.`room type` \
-                order by `room number`;"
-            )
+                order by `room number`;")
             data = cursor.fetchall()
             rows = cursor.rowcount
         if rows == 0:
-            print("No empty rooms available right now. Please check again later.")
+            print(
+                "No empty rooms available right now. Please check again later."
+            )
         else:
             data = [("Room no.", "Beds", "AC", "Rate per day")] + data
             util.print_table(data)
@@ -123,10 +124,8 @@ class Admin:
         if room_type is None:
             return
         with self._cursor() as cursor:
-            cursor.execute(
-                f"""INSERT INTO `rooms` (`room number`, `room type`)
-                           VALUES ('{room_number}','{room_type}');"""
-            )
+            cursor.execute(f"""INSERT INTO `rooms` (`room number`, `room type`)
+                           VALUES ('{room_number}','{room_type}');""")
 
     def add_room_type(self):
         while True:
@@ -165,11 +164,9 @@ class Admin:
         if room_type is None:
             return
         with self._cursor() as cursor:
-            cursor.execute(
-                f"""UPDATE `rooms`
+            cursor.execute(f"""UPDATE `rooms`
                            SET `room type`='{room_type}'
-                           WHERE `room number`='{room_number}';"""
-            )
+                           WHERE `room number`='{room_number}';""")
 
     def modify_room_type(self):
         room_type = selecter.room_type("Enter the room type to change: ")
@@ -177,10 +174,8 @@ class Admin:
             return
         for param in ("beds", "AC", "rate"):
             with self._cursor() as cursor:
-                cursor.execute(
-                    f"select `{param}` from `rates`\
-                               where `room type` = '{room_type}'"
-                )
+                cursor.execute(f"select `{param}` from `rates`\
+                               where `room type` = '{room_type}'")
                 old_value = cursor.fetchall()[0][0]
             if param == "AC":
                 print(param, "is", ["not ", ""][bool(old_value)] + "available")
@@ -194,11 +189,9 @@ class Admin:
                     new_value = userinput.input_int("Enter the new value: ")
             if new_value is not None:
                 with self._cursor() as cursor:
-                    cursor.execute(
-                        f"update `rates`\
+                    cursor.execute(f"update `rates`\
                                    set `{param}` = '{new_value}' \
-                                   where `room type` = '{room_type}'"
-                    )
+                                   where `room type` = '{room_type}'")
 
     def delete_room(self):
         room = selecter.room_number("Enter the room number to be deleted: ")
@@ -207,8 +200,7 @@ class Admin:
             if userinput.yes_or_no("Are you sure?"):
                 with self._cursor() as cursor:
                     cursor.execute(
-                        f"DELETE FROM `rooms` WHERE `room number` = '{room}'"
-                    )
+                        f"DELETE FROM `rooms` WHERE `room number` = '{room}'")
 
     def delete_room_type(self):
         room_type = selecter.room_type("Enter the room number to be deleted: ")
@@ -234,5 +226,5 @@ class Admin:
                     """UPDATE `rooms`
                     set `occupied` = (`occupied` + 1) % 2
                     where `room number` = %s;""",
-                    (room_to_change,),
+                    (room_to_change, ),
                 )
