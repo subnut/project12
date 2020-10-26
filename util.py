@@ -1,6 +1,6 @@
 import mysql.connector
 from project12 import userinput
-from project12.constants import DATABASE_SERVER, DATABASE_NAME, GUEST_USERNAME
+from project12.constants import DATABASE_NAME, DATABASE_SERVER, GUEST_USERNAME
 from project12.tabulate import tabulate
 
 

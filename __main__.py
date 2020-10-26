@@ -1,7 +1,8 @@
 import os
 from sys import exit
+
 from project12 import users
-from project12.constants import HOTEL_NAME, ADMIN_USERNAME
+from project12.constants import ADMIN_USERNAME, HOTEL_NAME
 from project12.userinput import choose_option, get_password, yes_or_no
 from project12.util import Check
 
