@@ -1,4 +1,5 @@
 import mysql.connector
+from typing import List, Union
 from project12 import userinput
 from project12.constants import DATABASE_SERVER, DATABASE_NAME, GUEST_USERNAME
 from project12.tabulate import tabulate
@@ -8,7 +9,7 @@ class Check:
     def __init__(self):
         pass
 
-    def server(self, *args):
+    def server(self, *args) -> bool:
         try:
             mysql.connector.connect(
                 user=GUEST_USERNAME,
@@ -23,7 +24,7 @@ Please check the connection."""
         else:
             return True
 
-    def database(self, *args):
+    def database(self, *args) -> bool:
         if not self.server():
             return False
         try:
@@ -38,7 +39,7 @@ Please check the connection."""
         else:
             return True
 
-    def password(self, username, password):
+    def password(self, username, password) -> bool:
         if not self.server():
             return False
         try:
@@ -85,7 +86,7 @@ class Select:
     def _cursor(self):
         return Cursor(self.connection)
 
-    def room_number(self, prompt="Please enter the room number: "):
+    def room_number(self, prompt="Please enter the room number: ") -> Union[int, None]:
         with self._cursor() as cursor:
             cursor.execute("select `room number` from `rooms`;")
             rooms = cursor.fetchall()
@@ -97,9 +98,9 @@ class Select:
                     return None
             else:
                 break
-        return room
+        return int(room)
 
-    def room_type(self, prompt="Please enter the room type: "):
+    def room_type(self, prompt="Please enter the room type: ") -> Union[int, None]:
         with self._cursor() as cursor:
             cursor.execute("select `room type` from `rates`;")
             room_types = cursor.fetchall()
@@ -111,7 +112,7 @@ class Select:
                     return None
             else:
                 break
-        return room_type
+        return int(room_type)
 
 
 class Lister:
@@ -126,21 +127,21 @@ class Lister:
     def _cursor(self):
         return Cursor(self.connection)
 
-    def room_numbers(self):
+    def room_numbers(self) -> List[int]:
         with self._cursor() as cursor:
             cursor.execute("select `room number` from `rooms`;")
             room_numbers = cursor.fetchall()
             room_numbers = [z for (z,) in room_numbers]
             return room_numbers
 
-    def room_types(self):
+    def room_types(self) -> List[int]:
         with self._cursor() as cursor:
             cursor.execute("select `room type` from `rates`;")
             room_types = cursor.fetchall()
             room_types = [z for (z,) in room_types]
             return room_types
 
-    def room_types_being_used(self):
+    def room_types_being_used(self) -> List[int]:
         with self._cursor() as cursor:
             cursor.execute("select unique (`room type`) from `rooms`;")
             room_types = cursor.fetchall()

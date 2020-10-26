@@ -38,7 +38,8 @@ class Guest:
     def check_rooms(self):
         with self._cursor() as cursor:
             cursor.execute(
-                "select `room number`, `room type` from `rooms` order by `room number`;"
+                "select `room number`, `room type` from `rooms` \
+                where `occupied` = 0 order by `room number`;"
             )
             rows = cursor.rowcount
             data = cursor.fetchall()
@@ -85,6 +86,8 @@ class Admin:
                 database=DATABASE_NAME,
             )
         self.actions = (
+            "Show rooms",
+            "Show room types",
             "Add new room",
             "Add room type",
             "Modify room",
@@ -95,6 +98,8 @@ class Admin:
             "Logout",
         )
         self.functions = [
+            self.show_rooms,
+            self.show_room_types,
             self.add_room,
             self.add_room_type,
             self.modify_room,
@@ -110,6 +115,34 @@ class Admin:
 
     def _cursor(self):
         return util.Cursor(self.connection)
+
+    def show_rooms(self):
+        with self._cursor() as cursor:
+            cursor.execute(
+                "select `room number`, `room type`, `occupied` \
+                from `rooms` order by `room number`;"
+            )
+            rows = cursor.rowcount
+            data = cursor.fetchall()
+        if rows == 0:
+            print("No room has been added till now.")
+        else:
+            data = [("Room no.", "Room type")] + data
+            util.print_table(data)
+
+    def show_room_types(self):
+        with self._cursor() as cursor:
+            cursor.execute(
+                "select `room type`, `beds`, `AC`, `rate`\
+                from `rates` order by `room type`;"
+            )
+            rows = cursor.rowcount
+            data = cursor.fetchall()
+        if rows == 0:
+            print("No room type has been added till now.")
+        else:
+            data = [("Room type", "Beds", "AC", "Rate per day")] + data
+            util.print_table(data)
 
     def add_room(self):
         while True:
@@ -205,7 +238,7 @@ class Admin:
     def delete_room(self):
         room = selecter.room_number("Enter the room number to be deleted: ")
         if room is not None:
-            print("Room {room} shall be deleted.")
+            print(f"Room {room} shall be deleted.")
             if userinput.yes_or_no("Are you sure?"):
                 with self._cursor() as cursor:
                     cursor.execute(
@@ -213,7 +246,7 @@ class Admin:
                     )
 
     def delete_room_type(self):
-        room_type = selecter.room_type("Enter the room number to be deleted: ")
+        room_type = selecter.room_type("Enter the room type to be deleted: ")
         if room_type is not None:
             if room_type in lister.room_types_being_used():
                 print(
@@ -221,7 +254,7 @@ class Admin:
                 )
                 return
             else:
-                print("Room type {room_type} shall be deleted.")
+                print(f"Room type {room_type} shall be deleted.")
                 if userinput.yes_or_no("Are you sure?"):
                     with self._cursor() as cursor:
                         cursor.execute(
