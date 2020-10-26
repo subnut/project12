@@ -21,8 +21,7 @@ class Guest:
                 host=DATABASE_SERVER,
                 database=DATABASE_NAME,
             )
-        self.actions = ("Check empty rooms", "Check rates",
-                        "Check both", "Logout")
+        self.actions = ("Check empty rooms", "Check rates", "Check both", "Logout")
         self.functions = (
             self.check_rooms,
             self.check_rates,
