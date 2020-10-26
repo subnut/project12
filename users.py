@@ -1,7 +1,10 @@
 import mysql.connector
-from project12 import userinput, util
-from project12.constants import (ADMIN_USERNAME, DATABASE_NAME,
-                                 DATABASE_SERVER, GUEST_USERNAME)
+from project12 import userinput
+from project12 import util
+from project12.constants import ADMIN_USERNAME
+from project12.constants import DATABASE_NAME
+from project12.constants import DATABASE_SERVER
+from project12.constants import GUEST_USERNAME
 
 checker = util.Check()
 selecter = util.Select()
