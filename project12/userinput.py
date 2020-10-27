@@ -34,7 +34,7 @@ def choose_option(options: Union[List, Tuple]) -> int:
     for (index, option) in enumerate(options):
         print(str(index + 1) + ": " + str(option))
     while True:
-        user_input = input("Choose your option: ")
+        user_input = input(f"Choose your option (1-{len(options)}): ")
         if user_input.isdigit() and (1 <= int(user_input) <= len(options)):
             return int(user_input) - 1
         else:

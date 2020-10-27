@@ -128,10 +128,10 @@ class Admin:
             )
             rows = cursor.rowcount
             data = cursor.fetchall()
-        if rows == 0:
+        if (rows == 0) or (len(data) == 0):
             print("No room has been added till now.")
         else:
-            data = [("Room no.", "Room type")] + data
+            data = [("Room no.", "Room type", "Occupied")] + data
             util.print_table(data)
 
     def show_room_types(self):
@@ -142,7 +142,7 @@ class Admin:
             )
             rows = cursor.rowcount
             data = cursor.fetchall()
-        if rows == 0:
+        if (rows == 0) or (len(data) == 0):
             print("No room type has been added till now.")
         else:
             data = [("Room type", "Beds", "AC", "Rate per day")] + data
@@ -151,6 +151,8 @@ class Admin:
     def add_room(self):
         while True:
             room_number = userinput.input_int("Enter the new room number: ")
+            if room_number is None:
+                return
             if room_number in lister.room_numbers():
                 if userinput.yes_or_no("Room already exists. Try again?"):
                     continue
@@ -158,6 +160,7 @@ class Admin:
                     return
             else:
                 break
+        self.show_room_types()
         room_type = selecter.room_type("Enter the room type: ")
         if room_type is None:
             return
@@ -170,6 +173,8 @@ class Admin:
     def add_room_type(self):
         while True:
             room_type = userinput.input_int("Enter the new room type: ")
+            if room_type is None:
+                return
             if room_type in lister.room_types():
                 if userinput.yes_or_no("Room already exists. Try again?"):
                     continue
@@ -200,6 +205,7 @@ class Admin:
         room_number = selecter.room_number("Enter room number: ")
         if room_number is None:
             return
+        self.show_room_types()
         room_type = selecter.room_type("Enter room type: ")
         if room_type is None:
             return
