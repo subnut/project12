@@ -205,7 +205,6 @@ class Admin:
         room_number = selecter.room_number("Enter room number: ")
         if room_number is None:
             return
-        self.show_room_types()
         room_type = selecter.room_type("Enter room type: ")
         if room_type is None:
             return
