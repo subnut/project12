@@ -1,9 +1,10 @@
 import os
+import readline
 from sys import exit
 from project12 import users
 from project12.constants import HOTEL_NAME, ADMIN_USERNAME
 from project12.userinput import choose_option, get_password, yes_or_no
-from project12.util import Check
+from project12.util import Check, Logout
 
 
 def _clear_screen():
@@ -12,13 +13,15 @@ def _clear_screen():
 
 def _helper(user_object):
     _clear_screen()
-    print("Welcome!")
     while True:
+        print("Welcome!")
         print()
         print("What would you like to do?")
         try:
             user_object.functions[choose_option(user_object.actions)]()
-        except EOFError:
+        except EOFError as E:
+            if not isinstance(E, Logout):
+                print()
             if yes_or_no("Do you want to logout?"):
                 break
             _clear_screen()

@@ -7,6 +7,7 @@ from project12.constants import (
 )
 from project12 import userinput
 from project12 import util
+from project12.util import Logout
 
 checker = util.Check()
 selecter = util.Select()
@@ -30,7 +31,7 @@ class Guest:
         )
 
     def _logout(self):
-        raise EOFError
+        raise Logout
 
     def _cursor(self):
         return util.Cursor(self.connection)
@@ -115,7 +116,7 @@ class Admin:
         ]
 
     def _logout(self):
-        raise EOFError
+        raise Logout
 
     def _cursor(self):
         return util.Cursor(self.connection)

@@ -161,6 +161,10 @@ class Lister:
             return room_types
 
 
+class Logout(EOFError):
+    pass
+
+
 def print_table(data):
     raw = tabulate.tabulate(data, headers="firstrow", tablefmt="orgtbl")
     sep = "+" + ("-" * (len(raw.split("\n")[0]) - 2)) + "+"

@@ -50,8 +50,7 @@ def yes_or_no(confirmation_text: str) -> bool:
     :rtype bool: True if 'y' or no input, else False
     """
     while True:
-        print(confirmation_text + " [Y/n] ", end="")
-        user_input = input()
+        user_input = input(confirmation_text + " [Y/n] ")
         user_input = user_input.lower()
         if user_input == "":
             return True
