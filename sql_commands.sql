@@ -5,7 +5,7 @@ create table `rates` (
 `room type` int (3) primary key,
 `beds` int(2) not null,
 `AC` bool NOT NULL DEFAULT FALSE,
-`rate` int(6) not null,
+`rate` int(7) not null,
 check (`AC` between 0 and 1) -- bool defaults to tinyint(1) which can also be 2,3 etc.
 );
 
