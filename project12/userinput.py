@@ -34,7 +34,7 @@ def choose_option(options: Union[List, Tuple]) -> int:
     for (index, option) in enumerate(options):
         print(str(index + 1) + ": " + str(option))
     while True:
-        user_input = input("Choose your option: ")
+        user_input = input(f"Choose your option (1-{len(options)}): ")
         if user_input.isdigit() and (1 <= int(user_input) <= len(options)):
             return int(user_input) - 1
         else:
@@ -50,11 +50,9 @@ def yes_or_no(confirmation_text: str) -> bool:
     :rtype bool: True if 'y' or no input, else False
     """
     while True:
-        print(confirmation_text + " [Y/n] ", end="")
-        user_input = input()
+        user_input = input(confirmation_text + " [Y/n] ")
         user_input = user_input.lower()
         if user_input == "":
-            print("Y")
             return True
         elif user_input in "yes" and user_input.startswith("y"):
             return True
