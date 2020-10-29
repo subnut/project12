@@ -4,8 +4,6 @@ import sys
 
 files_to_botify = sys.argv[1:]
 for filename in files_to_botify:
-    if filename.__contains__(".botify"):
-        filename = filename.rstrip(".botify")
     backup_filename = f"{filename}.botbackup"
     with open(filename) as file:
         lines = file.readlines()
@@ -23,5 +21,8 @@ for filename in files_to_botify:
             else:
                 filetype = ""
             lines[index] = f"```{filetype}\n{contents_to_insert}```\n"
+
+    if filename.__contains__(".botify"):
+        filename = filename.rstrip(".botify")
     with open(filename, "w+") as file:
         file.writelines(lines)
