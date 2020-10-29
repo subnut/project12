@@ -15,6 +15,10 @@ Functions available -
         Take password from user
         :param text Optional[str]: Prompt to show to user, 'Password:' by default
         :rtype str: Password input by user
+  - input_int(text: Optional[str] = "Please enter: ") -> Union[int, None]
+        Takes integer input from user and returns it. Else returns None.
+        :param text Optional[str]: Prompt to show user
+        :rtype Union[int, None]: If no input, None. Else return int(user_input)
 """
 import getpass
 from typing import Optional, Union, List, Tuple
