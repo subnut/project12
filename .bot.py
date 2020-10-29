@@ -4,12 +4,15 @@ import sys
 
 files_to_botify = sys.argv[1:]
 for filename in files_to_botify:
+    if filename.__contains__(".botify"):
+        filename = filename.rstrip(".botify")
+    backup_filename = f"{filename}.botbackup"
     with open(filename) as file:
         lines = file.readlines()
-    with open(f"{filename}.prebotification", "w+") as backup_file:
+    with open(backup_filename, "w+") as backup_file:
         backup_file.writelines(lines)
     for (index, line) in enumerate(lines):
-        if line.startswith("[BOT]:"):
+        if line.startswith("(BOT):"):
             origin_filename = line.lstrip("(BOT):").strip()
             with open(origin_filename) as origin_file:
                 contents_to_insert = origin_file.read()
