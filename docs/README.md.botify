@@ -11,7 +11,7 @@
 │   ├── userinput.py
 │   ├── users.py
 │   └── util.py
-├── README.md.botify
+├── README.md
 ├── run.py
 └── sql_commands.sql
 ```
