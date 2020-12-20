@@ -13,8 +13,8 @@ def _clear_screen():
 
 def _helper(user_object):
     _clear_screen()
+    print("Welcome!")
     while True:
-        print("Welcome!")
         print()
         print("What would you like to do?")
         try:
