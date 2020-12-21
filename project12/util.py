@@ -3,7 +3,11 @@ import mysql.connector
 from typing import List, Union
 from project12 import userinput
 from project12.constants import DATABASE_SERVER, DATABASE_NAME, GUEST_USERNAME
-from project12.tabulate import tabulate
+
+try:
+    import tabulate
+except ModuleNotFoundError:
+    from project12.tabulate import tabulate
 
 
 class Check:

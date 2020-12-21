@@ -1,13 +1,12 @@
-### Files
+## Files
 
-#### Directory Stucture
+### Directory Stucture
 ```
 .
 ├── project12
 │   ├── constants.py
 │   ├── __init__.py
 │   ├── __main__.py
-│   ├── tabulate
 │   ├── userinput.py
 │   ├── users.py
 │   └── util.py
@@ -17,35 +16,35 @@
 ```
 
 
-##### `sql_commands.sql`
+### `sql_commands.sql`
 
 (BOT): sql_commands.sql
 
-##### `run.py`
+### `run.py`
 
 (BOT): run.py
 
-##### `project12/__init__.py`
+### `project12/__init__.py`
 
 (BOT): project12/__init__.py
 
-##### `project12/__main__.py`
+### `project12/__main__.py`
 
 (BOT): project12/__main__.py
 
-##### `project12/constants.py`
+### `project12/constants.py`
 
 (BOT): project12/constants.py
 
-##### `project12/users.py`
+### `project12/users.py`
 
 (BOT): project12/users.py
 
-##### `project12/util.py`
+### `project12/util.py`
 
 (BOT): project12/util.py
 
-##### `project12/userinput.py`
+### `project12/userinput.py`
 
 (BOT): project12/userinput.py
 

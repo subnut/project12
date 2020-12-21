@@ -177,7 +177,7 @@ class Admin:
             if room_type is None:
                 return
             if room_type in lister.room_types():
-                if userinput.yes_or_no("Room already exists. Try again?"):
+                if userinput.yes_or_no("Room type already exists. Try again?"):
                     continue
                 else:
                     return

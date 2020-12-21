@@ -1,13 +1,12 @@
-### Files
+# Files
 
-#### Directory Stucture
+## Directory Stucture
 ```
 .
 ├── project12
 │   ├── constants.py
 │   ├── __init__.py
 │   ├── __main__.py
-│   ├── tabulate
 │   ├── userinput.py
 │   ├── users.py
 │   └── util.py
@@ -17,7 +16,7 @@
 ```
 
 
-##### `sql_commands.sql`
+## `sql_commands.sql`
 
 ```sql
 create database `hotel database`;
@@ -59,19 +58,19 @@ grant all on `hotel database` . * to 'manager'@'localhost' with grant option;
 -- vim: et
 ```
 
-##### `run.py`
+## `run.py`
 
 ```python
 from project12 import __main__
 ```
 
-##### `project12/__init__.py`
+## `project12/__init__.py`
 
 ```python
 from project12 import __main__
 ```
 
-##### `project12/__main__.py`
+## `project12/__main__.py`
 
 ```python
 import os
@@ -89,8 +88,8 @@ def _clear_screen():
 
 def _helper(user_object):
     _clear_screen()
+    print("Welcome!")
     while True:
-        print("Welcome!")
         print()
         print("What would you like to do?")
         try:
@@ -143,7 +142,7 @@ else:
     exit(1)
 ```
 
-##### `project12/constants.py`
+## `project12/constants.py`
 
 ```python
 DATABASE_SERVER = "localhost"
@@ -154,7 +153,7 @@ ADMIN_USERNAME = "manager"
 HOTEL_NAME = "THE GRAND HOTEL"
 ```
 
-##### `project12/users.py`
+## `project12/users.py`
 
 ```python
 import mysql.connector
@@ -336,7 +335,7 @@ class Admin:
             if room_type is None:
                 return
             if room_type in lister.room_types():
-                if userinput.yes_or_no("Room already exists. Try again?"):
+                if userinput.yes_or_no("Room type already exists. Try again?"):
                     continue
                 else:
                     return
@@ -442,7 +441,7 @@ class Admin:
                 )
 ```
 
-##### `project12/util.py`
+## `project12/util.py`
 
 ```python
 import sys
@@ -450,7 +449,11 @@ import mysql.connector
 from typing import List, Union
 from project12 import userinput
 from project12.constants import DATABASE_SERVER, DATABASE_NAME, GUEST_USERNAME
-from project12.tabulate import tabulate
+
+try:
+    import tabulate
+except ModuleNotFoundError:
+    from project12.tabulate import tabulate
 
 
 class Check:
@@ -618,7 +621,7 @@ def print_table(data):
     print(sep, raw, sep, sep="\n")
 ```
 
-##### `project12/userinput.py`
+## `project12/userinput.py`
 
 ```python
 """A module to take input from user
@@ -723,3 +726,477 @@ def input_int(text: Optional[str] = "Please enter: ") -> Union[int, None]:
 vim: ft=markdown
 -->
 
+
+# Output
+
+## Main screen
+```
+WELCOME TO THE GRAND HOTEL
+
+You are:
+1: Guest
+2: Manager
+Choose your option (1-2):
+```
+
+## `1` (ie. Guest)
+```
+Welcome!
+
+What would you like to do?
+1: Check empty rooms
+2: Check rates
+3: Check both
+4: Logout
+Choose your option (1-4): 1
+No empty rooms available right now. Please check again later.
+
+What would you like to do?
+1: Check empty rooms
+2: Check rates
+3: Check both
+4: Logout
+Choose your option (1-4): 4
+Do you want to logout? [Y/n] Y
+```
+_Returns back to **Main Screen**_
+
+## `2` (ie. Manager)
+
+### Login screen
+```
+WELCOME TO THE GRAND HOTEL
+
+You are:
+1: Guest
+2: Manager
+Choose your option (1-2): 2
+Password:
+Password incorrect. Please try again.
+Try again? [Y/n] y
+Password:
+Password incorrect. Please try again.
+Try again? [Y/n] Y
+Password:
+```
+
+### After successful login
+```
+Welcome!
+
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 1
+No room has been added till now.
+
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 2
+No room type has been added till now.
+```
+
+### Adding new room types
+```
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 4
+hoose your option (1-10): 4
+Enter the new room type: 1
+Enter the number of beds: 2
+AC available? [Y/n] Y
+Enter the rate: 2000
+
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 4
+Enter the new room type: 1
+Room type already exists. Try again? [Y/n] n
+```
+
+### Checking room types
+```
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 2
++----------------------------------------------+
+|   Room type |   Beds |   AC |   Rate per day |
+|-------------+--------+------+----------------|
+|           1 |      2 |    1 |           2000 |
+|           2 |      3 |    0 |           2500 |
++----------------------------------------------+
+```
+
+### Adding new rooms
+```
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 3
+Enter the new room number: 101
++----------------------------------------------+
+|   Room type |   Beds |   AC |   Rate per day |
+|-------------+--------+------+----------------|
+|           1 |      2 |    1 |           2000 |
+|           2 |      3 |    0 |           2500 |
++----------------------------------------------+
+Enter the room type: 1
+
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 3
+Enter the new room number: 101
+Room already exists. Try again? [Y/n] y
+Enter the new room number: 103
++----------------------------------------------+
+|   Room type |   Beds |   AC |   Rate per day |
+|-------------+--------+------+----------------|
+|           1 |      2 |    1 |           2000 |
+|           2 |      3 |    0 |           2500 |
++----------------------------------------------+
+Enter the room type: 2
+```
+
+### Checking rooms
+```
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 1
++---------------------------------------+
+|   Room no. |   Room type |   Occupied |
+|------------+-------------+------------|
+|        101 |           1 |          0 |
+|        102 |           1 |          0 |
+|        103 |           2 |          0 |
++---------------------------------------+
+```
+
+### Logout to Main Screen
+```
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 10
+Do you want to logout? [Y/n] y
+```
+_Returns back to **Main Screen**_
+
+## `1` (ie. Guest)
+```
+Welcome!
+
+What would you like to do?
+1: Check empty rooms
+2: Check rates
+3: Check both
+4: Logout
+Choose your option (1-4): 1
++--------------------------+
+|   Room no. |   Room type |
+|------------+-------------|
+|        101 |           1 |
+|        102 |           1 |
+|        103 |           2 |
++--------------------------+
+
+What would you like to do?
+1: Check empty rooms
+2: Check rates
+3: Check both
+4: Logout
+Choose your option (1-4): 2
++----------------------------------------------+
+|   Room type |   Beds |   AC |   Rate per day |
+|-------------+--------+------+----------------|
+|           1 |      2 |    1 |           2000 |
+|           2 |      3 |    0 |           2500 |
++----------------------------------------------+
+
+What would you like to do?
+1: Check empty rooms
+2: Check rates
+3: Check both
+4: Logout
+Choose your option (1-4): 3
++---------------------------------------------+
+|   Room no. |   Beds |   AC |   Rate per day |
+|------------+--------+------+----------------|
+|        101 |      2 |    1 |           2000 |
+|        102 |      2 |    1 |           2000 |
+|        103 |      3 |    0 |           2500 |
++---------------------------------------------+
+
+What would you like to do?
+1: Check empty rooms
+2: Check rates
+3: Check both
+4: Logout
+Choose your option (1-4): 4
+Do you want to logout? [Y/n] Y
+```
+_Returns back to **Main Screen**_
+
+## `2` (ie. Manager)
+
+### Modifying rooms
+```
+Welcome!
+
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 5
+Enter room number: 102
+Enter room type: 1
+```
+
+### Modify room type
+```
+Welcome!
+
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 6
+Enter the room type to change: 2
+beds is 3
+Do you want to change it? [Y/n] y
+Enter the new value: 2
+AC is not available
+Do you want to change it? [Y/n] n
+rate is 2500
+Do you want to change it? [Y/n] Y
+Enter the new value: 2800
+```
+
+### Delete rooms
+```
+Welcome!
+
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 7
+Enter the room number to be deleted: 106
+Invalid room number. Try again? [Y/n] Y
+Enter the room number to be deleted: 101
+Room 101 shall be deleted.
+Are you sure? [Y/n] y
+```
+
+### Delete room type
+```
+
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 8
+Enter the room type to be deleted: 3
+Invalid room type. Try again? [Y/n] Y
+Enter the room type to be deleted: 1
+Before deleting room type, please remove or modify all rooms associated with it.
+
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 7
+Enter the room number to be deleted: 1
+Invalid room number. Try again? [Y/n]
+Enter the room number to be deleted: 101
+Invalid room number. Try again? [Y/n]
+Enter the room number to be deleted: 102
+Room 102 shall be deleted.
+Are you sure? [Y/n] Y
+
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 8
+Enter the room type to be deleted: 1
+Room type 1 shall be deleted.
+Are you sure? [Y/n] y
+```
+
+### Change room occupancy status
+
+#### Before
+```
+Welcome!
+
+What would you like to do?
+1: Check empty rooms
+2: Check rates
+3: Check both
+4: Logout
+Choose your option (1-4): 3
++---------------------------------------------+
+|   Room no. |   Beds |   AC |   Rate per day |
+|------------+--------+------+----------------|
+|        101 |      1 |    1 |           1200 |
+|        102 |      2 |    1 |           2800 |
+|        103 |      2 |    1 |           2800 |
++---------------------------------------------+
+```
+
+#### Changing
+```
+Welcome!
+
+What would you like to do?
+1: Show rooms
+2: Show room types
+3: Add new room
+4: Add room type
+5: Modify room
+6: Modify room type
+7: Delete room
+8: Delete room type
+9: Change room status
+10: Logout
+Choose your option (1-10): 9
+Please enter the room number: 102
+```
+
+#### After
+```
+Welcome!
+
+What would you like to do?
+1: Check empty rooms
+2: Check rates
+3: Check both
+4: Logout
+Choose your option (1-4): 3
++---------------------------------------------+
+|   Room no. |   Beds |   AC |   Rate per day |
+|------------+--------+------+----------------|
+|        101 |      1 |    1 |           1200 |
+|        103 |      2 |    1 |           2800 |
++---------------------------------------------+
+```
